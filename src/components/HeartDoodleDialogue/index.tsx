@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from '@context';
 import { Button, useToast } from "@chakra-ui/react";
+import styles from '@styles/HeartDoodleDialogue.module.scss'
 
 const HeardDoodleDialogue = () => {
     const toast = useToast();
@@ -19,7 +20,7 @@ const HeardDoodleDialogue = () => {
 
     return (
         <>
-        <Button onClick={handleClick}>
+        <Button className={styles.dialogueButton} onClick={handleClick}>
         Psst.
         </Button>
     </>

@@ -63,6 +63,7 @@ const Main = () => {
       </Head>
       {/* <HeartDoodle /> */}
       <OptionsList options={options} />
+  
     </>
   );
 };

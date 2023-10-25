@@ -6,6 +6,7 @@ import { Answers, Options } from '@types';
 // import HeartDoodle from '@components/HeartDoodle';
 import OptionsList from '@components/OptionsList';
 import SendModal from '@components/SendModal';
+import HeardDoodleDialogue from '@components/HeartDoodleDialogue';
 
 const Note = () => {
   const searchParams = useSearchParams();
@@ -52,6 +53,7 @@ const Note = () => {
     <>
       {/* <HeartDoodle /> */}
       <OptionsList options={options} />
+      <HeardDoodleDialogue />
       <SendModal onClose={onClose} isOpen={isOpen} />
     </>
   );
