@@ -49,11 +49,13 @@ const Note = () => {
     }
   }, [senderEmail, senderName, setResponding, setSelectedAnswer]);
 
+
+
   return (
     <>
       {/* <HeartDoodle /> */}
       <OptionsList options={options} />
-      <HeardDoodleDialogue />
+     { !responding && <HeardDoodleDialogue /> }
       <SendModal onClose={onClose} isOpen={isOpen} />
     </>
   );
