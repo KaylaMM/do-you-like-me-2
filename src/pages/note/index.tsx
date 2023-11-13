@@ -49,8 +49,6 @@ const Note = () => {
     }
   }, [senderEmail, senderName, setResponding, setSelectedAnswer]);
 
-
-
   return (
     <>
       {/* <HeartDoodle /> */}

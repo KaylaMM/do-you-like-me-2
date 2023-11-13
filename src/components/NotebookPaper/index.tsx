@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { PropsWithChildren } from '@types';
 import HeartDoodle from '@components/HeartDoodle';
 import styles from '@styles/NotebookPaper.module.scss';
+
 const NotebookPaper = ({ children }: PropsWithChildren) => {
   return (
     <div className={styles.page}>
