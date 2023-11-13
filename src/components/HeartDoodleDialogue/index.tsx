@@ -13,11 +13,9 @@ const HeardDoodleDialogue = () => {
       };
 
     return (
-        <>
         <Button className={styles.dialogueButton} onClick={handleClick}>
         Psst.
         </Button>
-    </>
     )
 
 }
