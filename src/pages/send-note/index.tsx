@@ -1,9 +1,7 @@
-'use client';
-
-import { useContext, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import {
   Box,
   Button,
@@ -17,20 +15,22 @@ import {
   Highlight,
   Input,
   Text,
+  Textarea,
   useClipboard,
-} from '@chakra-ui/react';
-import { AppContext } from '@context';
+} from "@chakra-ui/react";
+import { AppContext } from "@context";
 // import HeartDoodle from '@components/HeartDoodle';
-import { encodeText } from '@utils';
-import styles from '@styles/EmailForm.module.scss';
+import { encodeText } from "@utils";
+import styles from "@styles/EmailForm.module.scss";
 
 const schema = yup
   .object({
     senderEmail: yup
       .string()
       .email()
-      .required('Need your email, we wont sell it. Probably.'),
-    senderName: yup.string().required('Let them know who its from.'),
+      .required("Need your email, we wont sell it. Probably."),
+    senderName: yup.string().required("Let them know who its from."),
+    senderMessage: yup.string().max(175),
   })
   .required();
 
@@ -44,16 +44,18 @@ const SendNote = () => {
   } = useForm<FormData>({ resolver: yupResolver(schema) });
   const { setSelectedAnswer } = useContext(AppContext);
   const [generatedLink, setGeneratedLink] = useState<string>();
-  const { onCopy, setValue, hasCopied } = useClipboard('');
+  const [textCounter, setTextCounter] = useState(0);
+  const { onCopy, setValue, hasCopied } = useClipboard("");
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>((resolve) => {
       const baseAppURL = process.env.NEXT_PUBLIC_APP_BASE_URL;
       setTimeout(() => {
-        const { senderEmail, senderName } = values;
+        const { senderEmail, senderName, senderMessage } = values;
         const encodedEmail = encodeText(senderEmail);
         const encodedName = encodeText(senderName);
-        const link = `${baseAppURL}/note/?se=${encodedEmail}&sn=${encodedName}`;
+        const encodedMessage = encodeText(senderMessage);
+        const link = `${baseAppURL}/note/?se=${encodedEmail}&sn=${encodedName}&sm=${encodedMessage}`;
 
         setValue(link);
         setGeneratedLink(link);
@@ -63,7 +65,9 @@ const SendNote = () => {
   };
 
   const formInvalid = !!(
-    errors.senderEmail?.message || errors.senderName?.message
+    errors.senderEmail?.message ||
+    errors.senderName?.message ||
+    errors.senderMessage?.message
   );
 
   useEffect(() => {
@@ -73,25 +77,17 @@ const SendNote = () => {
   return (
     <>
       {/* <HeartDoodle /> */}
-      <form
-        className={styles.container}
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
         <Card p={4} maxW="2xl">
           <Box m={3}>
-            <Heading
-              as="h3"
-              size="lg"
-              lineHeight="tall"
-              fontFamily="inherit"
-            >
+            <Heading as="h3" size="lg" lineHeight="tall" fontFamily="inherit">
               <Highlight
                 query="sharable link"
                 styles={{
-                  px: '2',
-                  py: '1',
-                  rounded: 'full',
-                  bg: 'orange.100',
+                  px: "2",
+                  py: "1",
+                  rounded: "full",
+                  bg: "orange.100",
                 }}
               >
                 Create a sharable link using your name and email
@@ -102,19 +98,28 @@ const SendNote = () => {
             <Box maxW="lg ">
               <Box mb={4}>
                 <FormLabel htmlFor="senderName">Name</FormLabel>
-                <Input id="senderName" {...register('senderName')} />
+                <Input id="senderName" {...register("senderName")} />
                 <FormErrorMessage mt={3}>
                   <span>{errors.senderName?.message}</span>
                 </FormErrorMessage>
               </Box>
               <Box mb={4}>
                 <FormLabel htmlFor="senderEmail">Email</FormLabel>
-                <Input
-                  id="senderEmail"
-                  {...register('senderEmail')}
-                />
+                <Input id="senderEmail" {...register("senderEmail")} />
                 <FormErrorMessage mt={3}>
                   <span>{errors.senderEmail?.message}</span>
+                </FormErrorMessage>
+              </Box>
+              <Box mb={4}>
+                <FormLabel htmlFor="senderMessage">Message</FormLabel>
+                <Textarea
+                  id="senderMessage"
+                  {...register("senderMessage")}
+                  onChange={(e) => setTextCounter(175 - e.target.value.length)}
+                />
+                <p>You have {textCounter} characters left.</p>
+                <FormErrorMessage mt={3}>
+                  <span>{errors.senderMessage?.message}</span>
                 </FormErrorMessage>
               </Box>
               <Button
@@ -135,8 +140,8 @@ const SendNote = () => {
             <Card mt={10} variant="elevated">
               <CardBody>
                 <Text fontSize="xl">
-                  Copy this link and send to whoever you want. Its
-                  kind of like passing a note!
+                  Copy this link and send to whoever you want. Its kind of like
+                  passing a note!
                 </Text>
                 <Box display="flex" alignItems="center">
                   <Code
@@ -149,7 +154,7 @@ const SendNote = () => {
                     {generatedLink}
                   </Code>
                   <Button ml={2} onClick={onCopy}>
-                    {hasCopied ? 'Copied!' : 'Copy'}
+                    {hasCopied ? "Copied!" : "Copy"}
                   </Button>
                 </Box>
               </CardBody>

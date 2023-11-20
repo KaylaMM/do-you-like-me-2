@@ -4,6 +4,7 @@ interface EmailServiceProps {
   responderName: string;
   senderEmail: string;
   senderName: string;
+  senderMessage: string;
   selectedAnswer: string;
 }
 
@@ -11,6 +12,7 @@ const emailService = async ({
   responderName,
   senderEmail,
   senderName,
+  senderMessage,
   selectedAnswer,
 }: EmailServiceProps) => {
   return new Promise(async (resolve, reject) => {
@@ -20,6 +22,7 @@ const emailService = async ({
         response: selectedAnswer,
         responder: responderName,
         senderName,
+        senderMessage,
       }),
       headers: {
         'Content-Type': 'application/json',
