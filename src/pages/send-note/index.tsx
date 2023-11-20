@@ -44,7 +44,7 @@ const SendNote = () => {
   } = useForm<FormData>({ resolver: yupResolver(schema) });
   const { setSelectedAnswer } = useContext(AppContext);
   const [generatedLink, setGeneratedLink] = useState<string>();
-  const [textCounter, setTextCounter] = useState(0);
+  const [textCounter, setTextCounter] = useState(175);
   const { onCopy, setValue, hasCopied } = useClipboard("");
 
   const onSubmit = (values: FormData) => {
