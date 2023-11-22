@@ -45,7 +45,7 @@ const Note = () => {
 
   useEffect(() => {
     setSelectedAnswer(null);
-    if (senderEmail && senderName && senderMessage) {
+    if (senderEmail && senderName) {
       setResponding(true);
     }
   }, [senderEmail, senderName, senderMessage, setResponding, setSelectedAnswer]);
