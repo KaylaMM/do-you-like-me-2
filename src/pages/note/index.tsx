@@ -41,7 +41,7 @@ const Note = () => {
 
   const senderName = searchParams.get('sn');
   const senderEmail = searchParams.get('se');
-  const senderMessage = searchParams.get("sm");
+  const senderMessage = searchParams.get('sm');
 
   useEffect(() => {
     setSelectedAnswer(null);
