@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+import * as yup from 'yup';
 import {
   Box,
   Button,
@@ -77,10 +77,18 @@ const SendNote = () => {
   return (
     <>
       {/* <HeartDoodle /> */}
-      <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={styles.container}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Card p={4} maxW="2xl">
           <Box m={3}>
-            <Heading as="h3" size="lg" lineHeight="tall" fontFamily="inherit">
+            <Heading
+              as="h3"
+              size="lg"
+              lineHeight="tall"
+              fontFamily="inherit"
+            >
               <Highlight
                 query="sharable link"
                 styles={{
@@ -105,7 +113,10 @@ const SendNote = () => {
               </Box>
               <Box mb={4}>
                 <FormLabel htmlFor="senderEmail">Email</FormLabel>
-                <Input id="senderEmail" {...register('senderEmail')} />
+                <Input
+                  id="senderEmail"
+                  {...register('senderEmail')}
+                />
                 <FormErrorMessage mt={3}>
                   <span>{errors.senderEmail?.message}</span>
                 </FormErrorMessage>
@@ -140,8 +151,8 @@ const SendNote = () => {
             <Card mt={10} variant="elevated">
               <CardBody>
                 <Text fontSize="xl">
-                  Copy this link and send to whoever you want. Its kind of like
-                  passing a note!
+                  Copy this link and send to whoever you want. Its
+                  kind of like passing a note!
                 </Text>
                 <Box display="flex" alignItems="center">
                   <Code
