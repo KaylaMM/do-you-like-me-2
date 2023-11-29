@@ -28,9 +28,11 @@ const schema = yup
     senderEmail: yup
       .string()
       .email()
-      .required('Need your email, we wont sell it. Probably.'),
-    senderName: yup.string().required('Let them know who its from.'),
-    senderMessage: yup.string().max(175),
+      .required("Need your email, we wont sell it. Probably."),
+    senderName: yup.string().required("Let them know who its from."),
+    senderMessage: yup
+      .string()
+      .max(175, "Whoops! You exceeded your limit of 175 characters."),
   })
   .required();
 
