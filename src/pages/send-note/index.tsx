@@ -1,5 +1,3 @@
-'use client';
-
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -17,6 +15,7 @@ import {
   Highlight,
   Input,
   Text,
+  Textarea,
   useClipboard,
 } from '@chakra-ui/react';
 import { AppContext } from '@context';
@@ -29,8 +28,11 @@ const schema = yup
     senderEmail: yup
       .string()
       .email()
-      .required('Need your email, we wont sell it. Probably.'),
-    senderName: yup.string().required('Let them know who its from.'),
+      .required("Need your email, we wont sell it. Probably."),
+    senderName: yup.string().required("Let them know who its from."),
+    senderMessage: yup
+      .string()
+      .max(175, "Whoops! You exceeded your limit of 175 characters."),
   })
   .required();
 
@@ -44,16 +46,18 @@ const SendNote = () => {
   } = useForm<FormData>({ resolver: yupResolver(schema) });
   const { setSelectedAnswer } = useContext(AppContext);
   const [generatedLink, setGeneratedLink] = useState<string>();
+  const [textCounter, setTextCounter] = useState(175);
   const { onCopy, setValue, hasCopied } = useClipboard('');
 
   const onSubmit = (values: FormData) => {
     return new Promise<void>((resolve) => {
       const baseAppURL = process.env.NEXT_PUBLIC_APP_BASE_URL;
       setTimeout(() => {
-        const { senderEmail, senderName } = values;
+        const { senderEmail, senderName, senderMessage } = values;
         const encodedEmail = encodeText(senderEmail);
         const encodedName = encodeText(senderName);
-        const link = `${baseAppURL}/note/?se=${encodedEmail}&sn=${encodedName}`;
+        const encodedMessage = encodeText(senderMessage);
+        const link = `${baseAppURL}/note/?se=${encodedEmail}&sn=${encodedName}&sm=${encodedMessage}`;
 
         setValue(link);
         setGeneratedLink(link);
@@ -63,7 +67,9 @@ const SendNote = () => {
   };
 
   const formInvalid = !!(
-    errors.senderEmail?.message || errors.senderName?.message
+    errors.senderEmail?.message ||
+    errors.senderName?.message ||
+    errors.senderMessage?.message
   );
 
   useEffect(() => {
@@ -115,6 +121,18 @@ const SendNote = () => {
                 />
                 <FormErrorMessage mt={3}>
                   <span>{errors.senderEmail?.message}</span>
+                </FormErrorMessage>
+              </Box>
+              <Box mb={4}>
+                <FormLabel htmlFor="senderMessage">Message</FormLabel>
+                <Textarea
+                  id="senderMessage"
+                  {...register('senderMessage')}
+                  onChange={(e) => setTextCounter(175 - e.target.value.length)}
+                />
+                <p>You have {textCounter} characters left.</p>
+                <FormErrorMessage mt={3}>
+                  <span>{errors.senderMessage?.message}</span>
                 </FormErrorMessage>
               </Box>
               <Button
