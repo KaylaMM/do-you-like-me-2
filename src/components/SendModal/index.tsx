@@ -91,7 +91,6 @@ const SendModal = ({ isOpen, onClose }: SendModalProps) => {
       />
       <ModalContent>
         <ModalHeader>{`Respond to ${senderName}`}</ModalHeader>
-        <ModalBody>{`${senderMessage}`}</ModalBody>
         <ModalCloseButton />
         <ModalBody>
           <Input

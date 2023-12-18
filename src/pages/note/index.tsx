@@ -7,6 +7,8 @@ import { Answers, Options } from '@types';
 import OptionsList from '@components/OptionsList';
 import SendModal from '@components/SendModal';
 import HeardDoodleDialogue from '@components/HeartDoodleDialogue';
+import SenderMessage from '@components/SenderMessage';
+import styles from '@styles/NotebookPaper.module.scss';
 
 const Note = () => {
   const searchParams = useSearchParams();
@@ -52,8 +54,11 @@ const Note = () => {
   return (
     <>
       {/* <HeartDoodle /> */}
-      <OptionsList options={options} />
-     { !responding && <HeardDoodleDialogue /> }
+      <div className={styles.page_note}>
+        <OptionsList options={options} />
+        {responding && <SenderMessage />}
+      </div>
+      {!responding && <HeardDoodleDialogue />}
       <SendModal onClose={onClose} isOpen={isOpen} />
     </>
   );
