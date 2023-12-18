@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <AppContextProvider>
         {/* <TransitionWrapper> */}
         <NotebookPaper>
-          <Component {...pageProps} />;
+          <Component {...pageProps} />
         </NotebookPaper>
         {/* </TransitionWrapper> */}
       </AppContextProvider>

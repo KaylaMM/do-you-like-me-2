@@ -24,6 +24,13 @@
   font-weight: bold;
   color: $pencil-color;
 }
+
+.page_note{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .margin {
   width: 49px;
   height: 100%;

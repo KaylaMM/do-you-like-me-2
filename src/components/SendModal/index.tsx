@@ -35,7 +35,8 @@ const SendModal = ({ isOpen, onClose }: SendModalProps) => {
   const encodedSenderName = searchParams.get('sn')!;
   const senderName = decodeText(encodedSenderName);
   const senderEmail = searchParams.get('se')!;
-  const senderMessage = searchParams.get('sm')!;
+  const encodedSenderMessage = searchParams.get('sm')!;
+  const senderMessage = decodeText(encodedSenderMessage);
 
   const handleClick = async () => {
     if (!selectedAnswer)
